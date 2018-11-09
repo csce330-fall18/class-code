@@ -11,11 +11,11 @@ repl' :: Int -> a -> [a]
 repl' 0 _ = []
 repl' n x = x : repl' (n-1) x
 
-
+{-
 (!!) :: [a] -> Int -> a
 (!!) (x:_) 0 = x
 (!!) (_:xs) n = xs Main.!! (n-1)   
-
+-}
 
 elem' :: Eq a => a -> [a] -> Bool
 elem' _ [] = False
@@ -31,8 +31,13 @@ merge xs [] = xs
 merge (x:xs) (y:ys)
     | x<=y = x: merge xs (y:ys)
     | otherwise = y : merge (x:xs) ys
-{-
+
 msort :: Ord a => [a] -> [a]
+msort [] = []
+msort [x] = [x]
+msort xs = merge sl sr
+    where
+        h = length xs `div` 2
+        sl = msort $ take h xs
+        sr = msort $ drop h xs
 
-
--}
