@@ -16,12 +16,11 @@ map'' f xs = [ f x | x<- xs]
 --with foldl
 map''' :: (a->b) -> [a] -> [b] 
 map''' f xs = foldl (\ x y -> x ++ [f y]) [] xs
-{-
+
 --foldr with conditional
 filter' :: (a->Bool) -> [a] -> [a]
-
+filter' p xs = foldr (\x ys -> if p x then x:ys else ys) [] xs
 
 --with a l.c.
 filter'' :: (a->Bool) -> [a] -> [a]
-
--}
+filter'' p xs = [ x | x<-xs, p x ]

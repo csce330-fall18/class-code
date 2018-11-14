@@ -14,20 +14,29 @@ add Zero     n = n
 add (Succ m) n = Succ (add m n) 
 
 mult:: Nat -> Nat -> Nat
-mult Zero _ = Zero
-mult _ Zero = Zero
-mult (Succ Zero)  x = x
-mult x (Succ Zero) = x
-mult (Succ m) n = add n (mult m n)
+mult Zero n = Zero
+mult (Succ m ) n = add n (mult m n)
+
 
 data Expr = Val Int
           | Add Expr Expr
           | Mul Expr Expr deriving Show
 
-folde valf addf mulf (Val n ) = valf n
-folde valf addf mulf (Add x y) = addf ( folde valf addf mulf x) ( folde valf addf mulf y)
-folde valf addf mulf (Mul x y) = mulf ( folde valf addf mulf x) ( folde valf addf mulf y)
+-- folde vf af mf ex 
+folde vf  _  _ (Val v) = vf v
+folde vf af mf (Add l r) = af (folde vf af mf l ) (folde vf af mf r )
+folde vf af mf (Mul l r) = mf (folde vf af mf l ) (folde vf af mf r )
+
 
 data Tree a = Nil 
             | Leaf a
             | Node (Tree a) a (Tree a) deriving Show
+
+size Nil = 0
+size (Leaf _) = 1
+size (Node l _ r) = size l + 1 + size r
+
+complete Nil = True
+complete (Leaf _) = True
+complete (Node l _ r ) = size l == size r && complete l && complete r
+
